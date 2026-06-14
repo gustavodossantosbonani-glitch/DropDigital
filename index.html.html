@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DropDigital | Impulsione suas Redes Sociais</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-principal: #0a0f24;
+            --bg-card: #131c3f;
+            --azul-neon: #00f2fe;
+            --azul-drop: #0072ff;
+            --texto-claro: #ffffff;
+            --texto-mutado: #8fa0dd;
+            --instagram: #e1306c;
+            --tiktok: #ff0050;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-principal);
+            color: var(--texto-claro);
+            overflow-x: hidden;
+            padding-top: 90px;
+        }
+
+        /* Cabecalho */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(10, 15, 36, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--azul-neon), var(--azul-drop));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        nav a {
+            color: var(--texto-claro);
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            margin-right: 15px;
+        }
+
+        nav a:hover {
+            color: var(--azul-neon);
+        }
+
+        /* Botoes de Acao Superior */
+        .header-btn {
+            background: transparent;
+            border: none;
+            color: var(--texto-claro);
+            font-size: 1.3rem;
+            cursor: pointer;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .header-btn:hover {
+            color: var(--azul-neon);
+            transform: scale(1.1);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--azul-neon);
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, #1e295d 0%, var(--bg-principal) 70%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(45deg, var(--azul-neon), #00ff87);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--texto-mutado);
+            max-width: 600px;
+        }
+
+        /* Categorias e Redes Sociais */
+        .container {
+            padding: 40px 8%;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            border: 2px solid transparent;
+            color: var(--texto-claro);
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active[data-rede="instagram"] { border-color: var(--instagram); background: rgba(225, 48, 108, 0.1); }
+        .tab-btn.active[data-rede="tiktok"] { border-color: var(--tiktok); background: rgba(255, 0, 80, 0.1); }
+
+        /* Estrutura de Catalogos Empilhados */
+        .catalogo-grupo {
+            margin-bottom: 60px;
+        }
+
+        .catalogo-titulo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-left: 15px;
+            border-left: 4px solid var(--azul-neon);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rede-instagram .catalogo-titulo { border-left-color: var(--instagram); }
+        .rede-tiktok .catalogo-titulo { border-left-color: var(--tiktok); }
+
+        .lista-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .item-linha {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .item-linha:hover {
+            transform: translateX(5px);
+            border-color: rgba(0, 242, 254, 0.3);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .item-icon { font-size: 1.8rem; }
+        .rede-instagram .item-icon { color: var(--instagram); }
+        .rede-tiktok .item-icon { color: var(--tiktok); }
+
+        .item-detalhes h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #00ff87;
+            color: #000;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 5px;
+            text-transform: uppercase;
+        }
+
+        .badge.recomendado { background: var(--azul-neon); }
+
+        .item-preco-acao {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .item-preco {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--azul-neon);
+        }
+
+        .btn-adicionar {
+            background: linear-gradient(45deg, var(--azul-drop), var(--azul-neon));
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Modais */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 7, 18, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 35px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            transform: scale(0.9);
+            transition: 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-box { transform: scale(1); }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--texto-mutado);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Formularios e Inputs */
+        .form-group {
+            text-align: left;
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--texto-mutado);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--azul-neon);
+            outline: none;
+        }
+        
+        .erro-feedback {
+            color: #ff0050;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        /* Lista de Itens no Carrinho */
+        .cart-items-list {
+            margin: 20px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .btn-remover-item {
+            background: transparent;
+            border: none;
+            color: #ff0050;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 5px;
+            transition: 0.2s;
+        }
+        .btn-remover-item:hover {
+            transform: scale(1.15);
+        }
+
+        .cart-total-box {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: var(--azul-neon);
+        }
+
+        /* Histórico de Pedidos na Conta */
+        .pedidos-list {
+            max-height: 250px;
+            overflow-y: auto;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .pedido-card {
+            background: rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--azul-drop);
+        }
+
+        .pedido-status {
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .status-andamento-badge { background: #00f2fe; color: #000; }
+
+        /* Area do Pix */
+        .pix-qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .pix-copia-box {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            word-break: break-all;
+            border: 2px dashed var(--azul-neon);
+            color: #ffffff;
+            text-align: center;
+            cursor: pointer;
+            user-select: all;
+            transition: 0.2s;
+        }
+
+        .pix-copia-box:hover {
+            background: rgba(0, 242, 254, 0.1);
+        }
+
+        .btn-copiar {
+            width: 100%;
+            background: var(--azul-drop);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .timer-box {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ff0050;
+        }
+
+        .btn-confirmar-transf {
+            width: 100%;
+            background: #00ff87;
+            color: #000;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 170, 0, 0.2);
+            border-top: 4px solid #ffaa00;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Banner de Cookies */
+        .cookie-banner {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: #131c3f;
+            border: 1px solid var(--azul-neon);
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            z-index: 2000;
+            transform: translateY(150%);
+            transition: 0.5s ease;
+        }
+
+        .cookie-banner.active { transform: translateY(0); }
+        .cookie-btn { background: var(--azul-neon); color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+        /* Visibilidade das Secoes */
+        .rede-secao { display: none; }
+        .rede-secao.active { display: block; }
+
+        /* Estilos Checkout & Suporte */
+        .btn-voltar-checkout {
+            background: transparent;
+            border: 1px solid var(--texto-mutado);
+            color: var(--texto-claro);
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            float: left;
+            transition: 0.3s;
+        }
+        .btn-voltar-checkout:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--azul-neon);
+        }
+        .checkout-resumo-box {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 12px;
+            border-radius: 10px;
+            text-align: left;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .checkout-resumo-box h4 { color: var(--azul-neon); margin-bottom: 5px; font-size: 0.95rem; }
+        .checkout-resumo-box p { color: var(--texto-mutado); margin: 2px 0; word-break: break-all; }
+
+        /* Botão Whatsapp Fixo */
+        .whatsapp-fixo {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            z-index: 1500;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .whatsapp-fixo:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.5);
+        }
+
+        /* Seção de Políticas */
+        .politicas-container {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 40px 8%;
+            margin-top: 60px;
+            border-radius: 20px;
+        }
+        .politicas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .politica-item h4 { color: var(--azul-neon); margin-bottom: 10px; font-size: 1.1rem; }
+        .politica-item p { color: var(--texto-mutado); font-size: 0.9rem; line-height: 1.6; }
+
+        /* Estilo da Tela Sucesso customizada */
+        .tela-sucesso { text-align: center; padding: 10px 0; }
+        .tela-sucesso h2 { color: #00ff87; font-size: 1.8rem; margin-bottom: 15px; }
+        .tela-sucesso p { font-size: 1rem; margin-bottom: 12px; line-height: 1.6; }
+        .sucesso-badge { background: rgba(0, 242, 254, 0.15); color: var(--azul-neon); padding: 6px 15px; border-radius: 6px; display: inline-block; font-weight: 700; margin-bottom: 15px; }
+
+        /* Media Queries - Responsividade Completa */
+        @media (max-width: 992px) {
+            header { padding: 15px 4%; }
+            .container, .politicas-container { padding: 40px 4%; }
+            .hero h1 { font-size: 2.4rem; }
+        }
+        @media (max-width: 768 {
+            body { padding-top: 80px; }
+            header { padding: 12px 15px; }
+            .logo { font-size: 20px; }
+            .header-actions { gap: 15px; }
+            nav { display: none; }
+            .header-btn { font-size: 1.15rem; }
+            .hero { height: auto; padding: 60px 20px; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero p { font-size: 0.95rem; }
+            .section-title { font-size: 1.8rem; margin-bottom: 25px; }
+            .tabs { gap: 8px; margin-bottom: 30px; }
+            .tab-btn { padding: 10px 18px; font-size: 0.95rem; flex: 1 1 100%; justify-content: center; }
+            .item-linha { flex-direction: column; text-align: center; gap: 15px; padding: 25px 20px; }
+            .item-info { flex-direction: column; gap: 10px; }
+            .item-preco-acao { flex-direction: column; gap: 12px; width: 100%; }
+            .btn-adicionar { width: 100%; justify-content: center; }
+            .modal-box { padding: 30px 20px; width: 95%; max-height: 85vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="fecharTodosModais()">DropDigital</div>
+        <div class="header-actions">
+            <nav>
+                <a href="#catalogo">Catálogo</a>
+                <a href="#" onclick="abrirModalConta(event)">Minha Conta</a>
+            </nav>
+            <button class="header-btn" onclick="abrirModalConta(event)"><i class="fa-regular fa-user"></i></button>
+            <button class="header-btn" onclick="abrirCarrinho()"><i class="fa-solid fa-basket-shopping"></i><span class="cart-count" id="cartCount">0</span></button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Impulsione suas Redes Sociais<br><span>Em Poucos Minutos</span></h1>
+        <p>Selecione a plataforma ideal, adicione os pacotes ao carrinho e assista ao crescimento do seu perfil de forma automatizada e segura.</p>
+    </section>
+
+    <div class="container" id="catalogo">
+        <div class="tabs">
+            <button class="tab-btn active" data-rede="instagram" onclick="mudarRede('instagram')"><i class="fa-brands fa-instagram"></i> Instagram</button>
+            <button class="tab-btn" data-rede="tiktok" onclick="mudarRede('tiktok')"><i class="fa-brands fa-tiktok"></i> TikTok</button>
+        </div>
+
+        <div id="rede-instagram" class="rede-secao active rede-instagram">
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-user-plus"></i> Seguidores</div>
+                <div class="lista-vertical" id="lista-instagram-seguidores"></div>
+            </div>
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-heart"></i> Curtidas</div>
+                <div class="lista-vertical" id="lista-instagram-curtidas"></div>
+            </div>
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-comment"></i> Comentários Simples 1.0</div>
+                <div class="lista-vertical" id="lista-instagram-comentarios1"></div>
+            </div>
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-comments"></i> Comentários Simples 2.0</div>
+                <div class="lista-vertical" id="lista-instagram-comentarios2"></div>
+            </div>
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-share"></i> Compartilhamentos</div>
+                <div class="lista-vertical" id="lista-instagram-compartilhamentos"></div>
+            </div>
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-eye"></i> Visualização em Reels</div>
+                <div class="lista-vertical" id="lista-instagram-visualizacoes"></div>
+            </div>
+        </div>
+
+        <div id="rede-tiktok" class="rede-secao rede-tiktok">
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-user-plus"></i> Seguidores</div>
+                <div class="lista-vertical" id="lista-tiktok-seguidores"></div>
+            </div>
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-heart"></i> Curtidas (Recomendado Viral)</div>
+                <div class="lista-vertical" id="lista-tiktok-curtidas"></div>
+            </div>
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-comment"></i> Comentários</div>
+                <div class="lista-vertical" id="lista-tiktok-comentarios"></div>
+            </div>
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-eye"></i> Visualização (Recomendado Viral)</div>
+                <div class="lista-vertical" id="lista-tiktok-visualizacoes"></div>
+            </div>
+            <div class="catalogo-grupo">
+                <div class="catalogo-titulo"><i class="fa-solid fa-share"></i> Compartilhamento (Recomendado Turbina Perfil)</div>
+                <div class="lista-vertical" id="lista-tiktok-compartilhamentos"></div>
+            </div>
+        </div>
+
+        <div class="politicas-container">
+            <h3 style="color: var(--azul-neon); text-align: center; margin-bottom: 10px;">Políticas & Termos de Uso</h3>
+            <p style="color: var(--texto-mutado); text-align: center; font-size: 0.95rem; max-width: 600px; margin: 0 auto 30px;">Garantimos total transparência e segurança em todos os serviços fornecidos na nossa plataforma.</p>
+            <div class="politicas-grid">
+                <div class="politica-item">
+                    <h4><i class="fa-solid fa-shield-halved"></i> Garantia de Entrega</h4>
+                    <p>Todos os serviços contratados iniciam o processamento imediatamente. Caso ocorra qualquer instabilidade na rede que impeça a conclusão, o saldo correspondente será estornado para sua conta.</p>
+                </div>
+                <div class="politica-item">
+                    <h4><i class="fa-solid fa-lock"></i> Privacidade Absoluta</h4>
+                    <p>Nossa plataforma nunca solicitará a senha do seu perfil. Precisamos apenas do link ou nome de usuário público para direcionar as interações com segurança.</p>
+                </div>
+                <div class="politica-item">
+                    <h4><i class="fa-solid fa-rotate-left"></i> Reembolsos e Quedas</h4>
+                    <p>Oferecemos suporte completo em caso de pequenas oscilações naturais das redes. Nossos pacotes principais contam com reposição automática de interações por até 30 dias após a compra.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalCarrinho" class="modal-overlay" onclick="fecharModalSeForFora(event, 'modalCarrinho')">
+        <div class="modal-box">
+            <button class="close-modal" onclick="fecharModal('modalCarrinho')"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="margin-bottom:20px;"><i class="fa-solid fa-basket-shopping" style="color:var(--azul-neon);"></i> Seu Carrinho</h2>
+            <div class="cart-items-list" id="carrinhoItens"></div>
+            <div class="cart-total-box">
+                <span>Total:</span>
+                <span id="carrinhoTotal">R$ 0,00</span>
+            </div>
+            <button class="btn-confirmar-transf" style="margin-top:0;" onclick="irParaFormCheckout()">Avançar para Identificação</button>
+        </div>
+    </div>
+
+    <div id="modalCheckoutForm" class="modal-overlay" onclick="fecharModalSeForFora(event, 'modalCheckoutForm')">
+        <div class="modal-box">
+            <button class="close-modal" onclick="fecharModal('modalCheckoutForm')"><i class="fa-solid fa-xmark"></i></button>
+            <button class="btn-voltar-checkout" onclick="voltarParaCarrinho()"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+            <h2 style="margin-bottom:15px; clear:both;">Identificação do Pedido</h2>
+            <p style="color:var(--texto-mutado); font-size:0.9rem; margin-bottom:20px;">Insira os dados corretos para onde as interações serão enviadas.</p>
+            
+            <div class="form-group">
+                <label>Seu E-mail (Para acompanhar o pedido)</label>
+                <input type="email" id="checkoutEmail" placeholder="exemplo@email.com">
+                <div class="erro-feedback" id="erro-checkoutEmail">Por favor, insira um e-mail válido.</div>
+            </div>
+            <div class="form-group">
+                <label>WhatsApp (Com DDD)</label>
+                <input type="tel" id="checkoutWhats" placeholder="(00) 00000-0000">
+                <div class="erro-feedback" id="erro-checkoutWhats">Por favor, insira o número do WhatsApp.</div>
+            </div>
+            <div class="form-group">
+                <label>Link do Perfil ou Publicação</label>
+                <input type="text" id="checkoutLink" placeholder="https://instagram.com/seu_perfil">
+                <div class="erro-feedback" id="erro-checkoutLink">Por favor, insira o link ou @ do usuário de destino.</div>
+            </div>
+
+            <button class="btn-confirmar-transf" style="margin-top:15px;" onclick="processarCheckoutDados()">Gerar Pagamento Pix</button>
+        </div>
+    </div>
+
+    <div id="modalPix" class="modal-overlay" onclick="fecharModalSeForFora(event, 'modalPix')">
+        <div class="modal-box">
+            <button class="close-modal" onclick="cancelarPixEFechar()"><i class="fa-solid fa-xmark"></i></button>
+            <h2>Pagamento via Pix</h2>
+            <p style="color: var(--texto-mutado); font-size: 0.9rem; margin-top:5px;">Copie a chave abaixo para realizar a transferência no app do seu banco.</p>
+            
+            <div id="checkoutResumo" class="checkout-resumo-box"></div>
+
+            <div class="pix-qr-container">
+                <div class="timer-box" id="timerDisplay">Aguardando pagamento: 05:00</div>
+                <div class="pix-copia-box" id="pixCodigo" title="Clique para copiar" onclick="copiarPix()">04d7ade0-2ef3-43fa-b5b7-b541d9e584d2</div>
+                <button class="btn-copiar" id="btnCopiarPix" onclick="copiarPix()">Copiar Chave Pix</button>
+            </div>
+            <button class="btn-confirmar-transf" onclick="simularVerificacaoPagamento()">Já realizei a transferência</button>
+        </div>
+    </div>
+
+    <div id="modalProcessando" class="modal-overlay">
+        <div class="modal-box">
+            <div class="spinner"></div>
+            <h2>Verificando Transação...</h2>
+            <p style="color: var(--texto-mutado); margin-top: 10px;">Consultando o recebimento junto à instituição bancária. Por favor, aguarde alguns instantes.</p>
+        </div>
+    </div>
+
+    <div id="modalConta" class="modal-overlay" onclick="fecharModalSeForFora(event, 'modalConta')">
+        <div class="modal-box">
+            <button class="close-modal" onclick="fecharModal('modalConta')"><i class="fa-solid fa-xmark"></i></button>
+            <h2><i class="fa-regular fa-user" style="color:var(--azul-neon);"></i> Minha Conta</h2>
+            <p style="color:var(--texto-mutado); font-size:0.9rem; margin-bottom:20px;">Consulte o andamento dos pedidos feitos no seu navegador.</p>
+            <div id="contaSemPedidos" style="color:var(--texto-mutado); padding:20px 0; display:none;">Nenhum pedido localizado neste dispositivo.</div>
+            <div class="pedidos-list" id="listaPedidosConta"></div>
+        </div>
+    </div>
+
+    <div id="cookieBanner" class="cookie-banner">
+        <p style="font-size: 0.9rem; color: var(--texto-mutado);">Utilizamos cookies essenciais para salvar seu histórico de pedidos e gerenciar o carrinho neste dispositivo.</p>
+        <button class="cookie-btn" onclick="aceitarCookies()">Aceitar</button>
+    </div>
+
+    <a href="https://wa.me/5511989010142" class="whatsapp-fixo" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const produtosData = [
+            // INSTAGRAM
+            // Seguidores (Corrigida a propriedade 'category' para 'categoria')
+            { id: "inst_seg_1k", rede: "instagram", categoria: "seguidores", nome: "1000 seguidores", preco: 8.99, icone: "fa-solid fa-user", badge: "" },
+            { id: "inst_seg_2k", rede: "instagram", categoria: "seguidores", nome: "2000 seguidores", preco: 12.99, icone: "fa-solid fa-user", badge: "" },
+            { id: "inst_seg_3k", rede: "instagram", categoria: "seguidores", nome: "3000 seguidores", preco: 19.99, icone: "fa-solid fa-user", badge: "" },
+            { id: "inst_seg_4k", rede: "instagram", categoria: "seguidores", nome: "4000 seguidores", preco: 24.99, icone: "fa-solid fa-user", badge: "+ vendido" },
+            { id: "inst_seg_5k", rede: "instagram", categoria: "seguidores", nome: "5000 seguidores", preco: 27.99, icone: "fa-solid fa-user", badge: "" },
+            { id: "inst_seg_10k", rede: "instagram", categoria: "seguidores", nome: "10000 seguidores", preco: 49.99, icone: "fa-solid fa-user", badge: "" },
+            
+            // Curtidas
+            { id: "inst_cur_1k", rede: "instagram", categoria: "curtidas", nome: "1000 curtidas", preco: 4.99, icone: "fa-solid fa-heart", badge: "" },
+            { id: "inst_cur_5k", rede: "instagram", categoria: "curtidas", nome: "5000 curtidas", preco: 13.99, icone: "fa-solid fa-heart", badge: "" },
+            { id: "inst_cur_10k", rede: "instagram", categoria: "curtidas", nome: "10000 curtidas", preco: 22.99, icone: "fa-solid fa-heart", badge: "+ vendido" },
+            { id: "inst_cur_50k", rede: "instagram", categoria: "curtidas", nome: "50000 curtidas", preco: 62.99, icone: "fa-solid fa-heart", badge: "" },
+            
+            // Comentários Simples 1.0
+            { id: "inst_com1_500", rede: "instagram", categoria: "comentarios1", nome: "500 comentarios", preco: 9.99, icone: "fa-solid fa-comment", badge: "" },
+            { id: "inst_com1_1k", rede: "instagram", categoria: "comentarios1", nome: "1000 comentarios", preco: 12.99, icone: "fa-solid fa-comment", badge: "+ vendido" },
+            { id: "inst_com1_2k", rede: "instagram", categoria: "comentarios1", nome: "2000 comentarios", preco: 21.99, icone: "fa-solid fa-comment", badge: "" },
+            { id: "inst_com1_4k", rede: "instagram", categoria: "comentarios1", nome: "4000 comentários", preco: 39.99, icone: "fa-solid fa-comment", badge: "" },
+            
+            // Comentários Simples 2.0
+            { id: "inst_com2_500", rede: "instagram", categoria: "comentarios2", nome: "500 comentários", preco: 8.99, icone: "fa-solid fa-comments", badge: "" },
+            { id: "inst_com2_1k", rede: "instagram", categoria: "comentarios2", nome: "1000 comentários", preco: 10.99, icone: "fa-solid fa-comments", badge: "+ vendido" },
+            { id: "inst_com2_2k", rede: "instagram", categoria: "comentarios2", nome: "2000 comentários", preco: 18.99, icone: "fa-solid fa-comments", badge: "" },
+            { id: "inst_com2_4k", rede: "instagram", categoria: "comentarios2", nome: "4000 comentários", preco: 29.99, icone: "fa-solid fa-comments", badge: "" },
+            
+            // Compartilhamentos
+            { id: "inst_cmp_1k", rede: "instagram", categoria: "compartilhamentos", nome: "1000", preco: 14.99, icone: "fa-solid fa-share", badge: "+ vendido" },
+            { id: "inst_cmp_2k", rede: "instagram", categoria: "compartilhamentos", nome: "2000", preco: 18.99, icone: "fa-solid fa-share", badge: "" },
+            { id: "inst_cmp_4k", rede: "instagram", categoria: "compartilhamentos", nome: "4000", preco: 25.99, icone: "fa-solid fa-share", badge: "" },
+            { id: "inst_cmp_5k", rede: "instagram", categoria: "compartilhamentos", nome: "5000", preco: 29.99, icone: "fa-solid fa-share", badge: "" },
+            
+            // Visualizações em Reels
+            { id: "inst_vis_5k", rede: "instagram", categoria: "visualizacoes", nome: "5000", preco: 7.99, icone: "fa-solid fa-eye", badge: "" },
+            { id: "inst_vis_10k", rede: "instagram", categoria: "visualizacoes", nome: "10000", preco: 9.99, icone: "fa-solid fa-eye", badge: "" },
+            { id: "inst_vis_20k", rede: "instagram", categoria: "visualizacoes", nome: "20000", preco: 14.99, icone: "fa-solid fa-eye", badge: "" },
+            { id: "inst_vis_50k", rede: "instagram", categoria: "visualizacoes", nome: "50000", preco: 19.99, icone: "fa-solid fa-eye", badge: "" },
+            { id: "inst_vis_100k", rede: "instagram", categoria: "visualizacoes", nome: "100000", preco: 27.99, icone: "fa-solid fa-eye", badge: "" },
+            { id: "inst_vis_1m", rede: "instagram", categoria: "visualizacoes", nome: "1000000", preco: 54.99, icone: "fa-solid fa-eye", badge: "+ vendido" },
+
+            // TIKTOK
+            // Seguidores
+            { id: "tt_seg_1k", rede: "tiktok", categoria: "seguidores", nome: "1000 Seguidores", preco: 24.99, icone: "fa-solid fa-user", badge: "+ vendido" },
+            { id: "tt_seg_2k", rede: "tiktok", categoria: "seguidores", nome: "2000 Seguidores", preco: 44.99, icone: "fa-solid fa-user", badge: "" },
+            { id: "tt_seg_4k", rede: "tiktok", categoria: "seguidores", nome: "4000 Seguidores", preco: 84.99, icone: "fa-solid fa-user", badge: "" },
+            { id: "tt_seg_10k", rede: "tiktok", categoria: "seguidores", nome: "10000 Seguidores", preco: 209.99, icone: "fa-solid fa-user", badge: "" },
+            
+            // Curtidas
+            { id: "tt_cur_1k", rede: "tiktok", categoria: "curtidas", nome: "1000", preco: 9.99, icone: "fa-solid fa-heart", badge: "recomendado" },
+            { id: "tt_cur_2k", rede: "tiktok", categoria: "curtidas", nome: "2000", preco: 14.99, icone: "fa-solid fa-heart", badge: "recomendado" },
+            { id: "tt_cur_4k", rede: "tiktok", categoria: "curtidas", nome: "4000", preco: 19.99, icone: "fa-solid fa-heart", badge: "+ vendido" },
+            { id: "tt_cur_10k", rede: "tiktok", categoria: "curtidas", nome: "10000", preco: 34.99, icone: "fa-solid fa-heart", badge: "recomendado" },
+            
+            // Comentários
+            { id: "tt_com_100", rede: "tiktok", categoria: "comentarios", nome: "100", preco: 14.99, icone: "fa-solid fa-comment", badge: "" },
+            { id: "tt_com_200", rede: "tiktok", categoria: "comentarios", nome: "200", preco: 23.99, icone: "fa-solid fa-comment", badge: "+ vendido" },
+            { id: "tt_com_400", rede: "tiktok", categoria: "comentarios", nome: "400", preco: 39.99, icone: "fa-solid fa-comment", badge: "" },
+            { id: "tt_com_800", rede: "tiktok", categoria: "comentarios", nome: "800", preco: 64.99, icone: "fa-solid fa-comment", badge: "" },
+            { id: "tt_com_1k", rede: "tiktok", categoria: "comentarios", nome: "1000", preco: 79.99, icone: "fa-solid fa-comment", badge: "" },
+            
+            // Visualizações
+            { id: "tt_vis_1k", rede: "tiktok", categoria: "visualizacoes", nome: "1000", preco: 9.99, icone: "fa-solid fa-eye", badge: "recomendado" },
+            { id: "tt_vis_2k", rede: "tiktok", categoria: "visualizacoes", nome: "2000", preco: 14.99, icone: "fa-solid fa-eye", badge: "recomendado" },
+            { id: "tt_vis_4k", rede: "tiktok", categoria: "visualizacoes", nome: "4000", preco: 18.99, icone: "fa-solid fa-eye", badge: "recomendado" },
+            { id: "tt_vis_8k", rede: "tiktok", categoria: "visualizacoes", nome: "8000", preco: 28.99, icone: "fa-solid fa-eye", badge: "recomendado" },
+            { id: "tt_vis_10k", rede: "tiktok", categoria: "visualizacoes", nome: "10000", preco: 29.99, icone: "fa-solid fa-eye", badge: "+ vendido" },
+            
+            // Compartilhamentos (Corrigida a propriedade 'category' para 'categoria')
+            { id: "tt_cmp_1k", rede: "tiktok", categoria: "compartilhamentos", nome: "1000", preco: 4.99, icone: "fa-solid fa-share", badge: "turbina" },
+            { id: "tt_cmp_5k", rede: "tiktok", categoria: "compartilhamentos", nome: "5000", preco: 9.99, icone: "fa-solid fa-share", badge: "turbina" },
+            { id: "tt_cmp_10k", rede: "tiktok", categoria: "compartilhamentos", nome: "10000", preco: 13.99, icone: "fa-solid fa-share", badge: "turbina" },
+            { id: "tt_cmp_20k", rede: "tiktok", categoria: "compartilhamentos", nome: "20000", preco: 19.99, icone: "fa-solid fa-share", badge: "turbina" },
+            { id: "tt_cmp_40k", rede: "tiktok", categoria: "compartilhamentos", nome: "40000", preco: 24.99, icone: "fa-solid fa-share", badge: "turbina" },
+            { id: "tt_cmp_50k", rede: "tiktok", categoria: "compartilhamentos", nome: "50000", preco: 25.99, icone: "fa-solid fa-share", badge: "turbina" },
+            { id: "tt_cmp_100k", rede: "tiktok", categoria: "compartilhamentos", nome: "100000", preco: 44.99, icone: "fa-solid fa-share", badge: "+ vendido" }
+        ];
+
+        let carrinho = [];
+        let timerInterval = null;
+        let dadosCliente = { email: "", whats: "", link: "" };
+
+        function renderizarProdutos() {
+            produtosData.forEach(p => {
+                const targetId = `lista-${p.rede}-${p.categoria}`;
+                const container = document.getElementById(targetId);
+                if (container) {
+                    const temBadge = p.badge && p.badge.trim() !== "";
+                    
+                    let textoBadge = p.badge;
+                    if(p.badge === 'recomendado' || p.badge === 'turbina') {
+                        textoBadge = 'recomendado';
+                    }
+                    if(p.id === 'tt_cmp_50k') {
+                        textoBadge = '2º + vendido';
+                    }
+
+                    const extraBadge = temBadge ? `<span class="badge ${p.badge === 'recomendado' || p.badge === 'turbina' ? 'recomendado' : ''}">${textoBadge}</span>` : '';
+                    const extraClass = temBadge && p.badge.includes('+ vendido') ? `destaque-${p.rede}` : '';
+                    
+                    const itemHtml = `
+                        <div class="item-linha ${extraClass}">
+                            ${extraBadge}
+                            <div class="item-info">
+                                <div class="item-icon"><i class="${p.icone}"></i></div>
+                                <div class="item-detalhes">
+                                    <h3>${p.nome}</h3>
+                                </div>
+                            </div>
+                            <div class="item-preco-acao">
+                                <div class="item-preco">R$ ${p.preco.toFixed(2)}</div>
+                                <button class="btn-adicionar" onclick="adicionarAoCarrinho('${p.id}')">
+                                    <i class="fa-solid fa-plus"></i> Incluir
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += itemHtml;
+                }
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderizarProdutos();
+            atualizarCarrinhoUI();
+        });
+
+        function adicionarAoCarrinho(id) {
+            const produto = produtosData.find(p => p.id === id);
+            if (produto) {
+                carrinho.push(produto);
+                atualizarCarrinhoUI();
+                abrirCarrinho();
+            }
+        }
+
+        function removerDoCarrinho(index) {
+            carrinho.splice(index, 1);
+            atualizarCarrinhoUI();
+        }
+
+        function calcularTotal() {
+            return carrinho.reduce((acc, p) => acc + p.preco, 0);
+        }
+
+        function atualizarCarrinhoUI() {
+            document.getElementById('cartCount').innerText = carrinho.length;
+            const container = document.getElementById('carrinhoItens');
+            
+            if (carrinho.length === 0) {
+                container.innerHTML = '<p style="color:var(--texto-mutado); padding: 15px 0;">O carrinho está vazio.</p>';
+                document.getElementById('carrinhoTotal').innerText = "R$ 0,00";
+                return;
+            }
+
+            container.innerHTML = carrinho.map((p, index) => `
+                <div class="cart-item-row">
+                    <div style="text-align:left;">
+                        <strong style="text-transform:capitalize; color:var(--azul-neon); font-size:0.8rem;">${p.rede}</strong><br>
+                        <span style="font-size:0.95rem;">${p.nome}</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:15px;">
+                        <span style="font-weight:700;">R$ ${p.preco.toFixed(2)}</span>
+                        <button class="btn-remover-item" onclick="removerDoCarrinho(${index})"><i class="fa-regular fa-trash-can"></i></button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('carrinhoTotal').innerText = `R$ ${calcularTotal().toFixed(2)}`;
+        }
+
+        function abrirCarrinho() {
+            fecharTodosModais();
+            document.getElementById('modalCarrinho').classList.add('active');
+        }
+
+        function irParaFormCheckout() {
+            if (carrinho.length === 0) {
+                alert("Adicione ao menos um serviço no carrinho para prosseguir.");
+                return;
+            }
+            fecharTodosModais();
+            document.getElementById('modalCheckoutForm').classList.add('active');
+        }
+
+        function voltarParaCarrinho() {
+            fecharTodosModais();
+            document.getElementById('modalCarrinho').classList.add('active');
+        }
+
+        function processarCheckoutDados() {
+            const email = document.getElementById('checkoutEmail').value.trim();
+            const whats = document.getElementById('checkoutWhats').value.trim();
+            const link = document.getElementById('checkoutLink').value.trim();
+
+            let valido = true;
+
+            if(!email.includes('@') || email.length < 5) {
+                document.getElementById('erro-checkoutEmail').style.display = 'block';
+                valido = false;
+            } else { document.getElementById('erro-checkoutEmail').style.display = 'none'; }
+
+            if(whats.length < 8) {
+                document.getElementById('erro-checkoutWhats').style.display = 'block';
+                valido = false;
+            } else { document.getElementById('erro-checkoutWhats').style.display = 'none'; }
+
+            if(link.length < 2) {
+                document.getElementById('erro-checkoutLink').style.display = 'block';
+                valido = false;
+            } else { document.getElementById('erro-checkoutLink').style.display = 'none'; }
+
+            if(!valido) return;
+
+            dadosCliente = { email, whats, link };
+
+            const resumoBox = document.getElementById('checkoutResumo');
+            resumoBox.innerHTML = `
+                <h4>Resumo da Entrega</h4>
+                <p><strong>Destino:</strong> ${link}</p>
+                <p><strong>Itens:</strong> ${carrinho.length} pacote(s)</p>
+                <p><strong>Total Geral:</strong> R$ ${calcularTotal().toFixed(2)}</p>
+            `;
+
+            fecharTodosModais();
+            abrirModalPix();
+        }
+
+        function abrirModalPix() {
+            document.getElementById('modalPix').classList.add('active');
+            startTimer(300);
+        }
+
+        function startTimer(duration) {
+            let timer = duration, minutes, seconds;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                document.getElementById('timerDisplay').innerText = "Aguardando pagamento: " + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timerDisplay').innerText = "Chave Pix expirada!";
+                }
+            }, 1000);
+        }
+
+        function copiarPix() {
+            const codigo = document.getElementById('pixCodigo').innerText;
+            navigator.clipboard.writeText(codigo).then(() => {
+                const btn = document.getElementById('btnCopiarPix');
+                btn.innerText = 'Copiado com Sucesso! ✓';
+                btn.style.background = '#00ff87';
+                btn.style.color = '#000';
+                setTimeout(() => {
+                    btn.innerText = 'Copiar Chave Pix';
+                    btn.style.background = 'var(--azul-drop)';
+                    btn.style.color = 'white';
+                }, 3000);
+            });
+        }
+
+        async function enviarNotificacoesEmail(pedidoId, produtosTexto, totalPedido) {
+            try {
+                // 1. Notificação para o administrador
+                await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        access_key: "da99f1fa-ebcf-48cb-a8df-ff5746b0d912",
+                        subject: `NOVO PEDIDO CONFIRMADO - #${pedidoId}`,
+                        from_name: "DropDigital Sistema",
+                        to_email: "gustavodossantosbonani@gmail.com",
+                        message: `Você tem um novo pedido para providenciar!\n\nID do Pedido: #${pedidoId}\nLink/Perfil Destino: ${dadosCliente.link}\nWhatsApp Cliente: ${dadosCliente.whats}\nE-mail Cliente: ${dadosCliente.email}\n\nProdutos Comprados:\n${produtosTexto}\nTotal Pago: R$ ${totalPedido}`
+                    })
+                });
+
+                // 2. Confirmação para o Cliente (E-mail de Agradecimento com Número de Suporte Atualizado)
+                await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        access_key: "da99f1fa-ebcf-48cb-a8df-ff5746b0d912",
+                        subject: `Pedido Confirmado com Sucesso! - DropDigital #${pedidoId}`,
+                        from_name: "DropDigital Suporte",
+                        to_email: dadosCliente.email,
+                        message: `Olá,\n\nAgradecemos imensamente pela sua compra na DropDigital!\n\nConfirmamos o recebimento do seu pedido #${pedidoId}.\nNossa equipe já iniciou os preparativos e a injeção das suas interações começará a aparecer no seu perfil nas próximas horas.\n\nResumo do seu Pacote:\n${produtosTexto}\n\nCaso tenha qualquer dúvida ou precise de assistência, nosso canal de suporte está totalmente à disposição.\nNúmero do nosso Suporte WhatsApp: (11) 98901-0142.\n\nAtenciosamente,\nEquipe DropDigital`
+                    })
+                });
+            } catch (error) {
+                console.error("Erro ao processar o envio dos e-mails em background:", error);
+            }
+        }
+
+        function simularVerificacaoPagamento() {
+            fecharTodosModais();
+            document.getElementById('modalProcessando').classList.add('active');
+            
+            setTimeout(() => {
+                fecharTodosModais();
+                
+                const pedidoId = Math.floor(100000 + Math.random() * 900000);
+                const listaProdutosTexto = carrinho.map(p => `- [${p.rede.toUpperCase()}] ${p.nome} (R$ ${p.preco.toFixed(2)})`).join('\n');
+                const totalPedidoFormatado = calcularTotal().toFixed(2);
+
+                // Dispara os e-mails assincronamente em background utilizando Web3Forms
+                enviarNotificacoesEmail(pedidoId, listaProdutosTexto, totalPedidoFormatado);
+
+                const novosPedidos = carrinho.map(p => ({
+                    id: pedidoId,
+                    produto: `[${p.rede.toUpperCase()}] ${p.nome}`,
+                    preco: p.preco,
+                    status: "Em processamento automático"
+                }));
+
+                let historico = JSON.parse(localStorage.getItem('historicoPedidos')) || [];
+                historico = [...novosPedidos, ...historico];
+                localStorage.setItem('historicoPedidos', JSON.stringify(historico));
+
+                const modalBoxPix = document.getElementById('modalPix').querySelector('.modal-box');
+                const conteudoOriginalPix = modalBoxPix.innerHTML;
+
+                modalBoxPix.innerHTML = `
+                    <button class="close-modal" onclick="fecharLimparCarrinho()"><i class="fa-solid fa-xmark"></i></button>
+                    <div class="tela-sucesso">
+                        <i class="fa-solid fa-circle-check" style="font-size:3.5rem; color:#00ff87; margin-bottom:15px;"></i>
+                        <h2>Pagamento Confirmado!</h2>
+                        <div class="sucesso-badge">Pedido #${pedidoId}</div>
+                        <p>O envio dos seus pacotes foi transmitido ao servidor e começará a ser injetado no seu perfil em até 15 minutos.</p>
+                        <p style="color:var(--texto-mutado); font-size:0.9rem;">Você pode acompanhar todo o andamento clicando na aba <strong>"Minha Conta"</strong> no menu superior.</p>
+                        <button class="btn-confirmar-transf" style="margin-top:15px; background:var(--azul-drop); color:#fff;" onclick="fecharLimparCarrinho()">Voltar à Loja</button>
+                    </div>
+                `;
+                
+                document.getElementById('modalPix').classList.add('active');
+                
+                window.restaurarModalPixElemento = () => {
+                    modalBoxPix.innerHTML = conteudoOriginalPix;
+                };
+
+            }, 3000);
+        }
+
+        function fecharLimparCarrinho() {
+            fecharTodosModais();
+            carrinho = [];
+            atualizarCarrinhoUI();
+            clearInterval(timerInterval);
+            if (window.restaurarModalPixElemento) {
+                window.restaurarModalPixElemento();
+                window.restaurarModalPixElemento = null;
+            }
+        }
+
+        function cancelarPixEFechar() {
+            fecharTodosModais();
+            clearInterval(timerInterval);
+        }
+
+        function abrirModalConta(e) {
+            if(e) e.preventDefault();
+            fecharTodosModais();
+            
+            const listaContainer = document.getElementById('listaPedidosConta');
+            const semPedidosMsg = document.getElementById('contaSemPedidos');
+            const historico = JSON.parse(localStorage.getItem('historicoPedidos')) || [];
+
+            if (historico.length === 0) {
+                semPedidosMsg.style.display = 'block';
+                listaContainer.innerHTML = '';
+            } else {
+                semPedidosMsg.style.display = 'none';
+                listaContainer.innerHTML = historico.map(p => `
+                    <div class="pedido-card">
+                        <strong>Pedido #${p.id}</strong><br>
+                        <span style="font-size:0.9rem; color:#fff;">${p.produto}</span><br>
+                        <small style="color:var(--azul-neon);">Valor: R$ ${p.preco.toFixed(2)}</small><br>
+                        <div class="pedido-status status-andamento-badge">${p.status}</div>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('modalConta').classList.add('active');
+        }
+
+        function fecharModal(id) { document.getElementById(id).classList.remove('active'); }
+        function fecharTodosModais() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
+        function fecharModalSeForFora(e, id) { if(e.target.id === id) fecharModal(id); }
+        function aceitarCookies() { localStorage.setItem('cookiesAceitos', 'true'); document.getElementById('cookieBanner').classList.remove('active'); }
+        
+        function mudarRede(rede) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.rede-secao').forEach(sec => sec.classList.remove('active'));
+            document.querySelector(`[data-rede="${rede}"]`).classList.add('active');
+            document.getElementById(`rede-${rede}`).classList.add('active');
+        }
+
+        window.addEventListener('load', () => {
+            if (!localStorage.getItem('cookiesAceitos')) {
+                setTimeout(() => { document.getElementById('cookieBanner').classList.add('active'); }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
