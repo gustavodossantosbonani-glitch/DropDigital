@@ -1079,39 +1079,39 @@
             });
         }
 
-        async function enviarNotificacoesEmail(pedidoId, produtosTexto, totalPedido) {
-            try {
-                // 1. Notificação para o administrador
-                await fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        access_key: "da99f1fa-ebcf-48cb-a8df-ff5746b0d912",
-                        subject: `NOVO PEDIDO CONFIRMADO - #${pedidoId}`,
-                        from_name: "DropDigital Sistema",
-                        email: "gustavodossantosbonani@gmail.com",
-                        message: `Você tem um novo pedido para providenciar!\n\nID do Pedido: #${pedidoId}\nLink/Perfil Destino: ${dadosCliente.link}\nWhatsApp Cliente: ${dadosCliente.whats}\nE-mail Cliente: ${dadosCliente.email}\n\nProdutos Comprados:\n${produtosTexto}\nTotal Pago: R$ ${totalPedido}`
-                    })
-                });
+         async function enviarNotificacoesEmail(pedidoId, produtosTexto, totalPedido) {
+    try {
+        // 1. Notificação de Novo Pedido para Você (Sem detalhes dos produtos)
+        await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                access_key: "da99f1fa-ebcf-48cb-a8df-ff5746b0d912",
+                subject: `NOVO PEDIDO CONFIRMADO - #${pedidoId}`,
+                from_name: "DropDigital Sistema",
+                email: "gustavodossantosbonani@gmail.com",
+                message: `Você tem um novo pedido para providenciar! ID do Pedido: #${pedidoId}`
+            })
+        });
 
-                // 2. Confirmação para o Cliente (E-mail de Agradecimento com Número de Suporte Atualizado)
-                await fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        access_key: "da99f1fa-ebcf-48cb-a8df-ff5746b0d912",
-                        subject: `Pedido Confirmado com Sucesso! - DropDigital #${pedidoId}`,
-                        from_name: "DropDigital Suporte",
-                        email: dadosCliente.email,
-                        message: `Olá,\n\nAgradecemos imensamente pela sua compra na DropDigital!\n\nConfirmamos o recebimento do seu pedido #${pedidoId}.\nNossa equipe já iniciou os preparativos e a injeção das suas interações começará a aparecer no seu perfil nas próximas horas.\n\nResumo do seu Pacote:\n${produtosTexto}\n\nCaso tenha qualquer dúvida ou precise de assistência, nosso canal de suporte está totalmente à disposição.\nNúmero do nosso Suporte WhatsApp: (11) 98901-0142.\n\nAtenciosamente,\nEquipe DropDigital`
-                    })
-                });
-            } catch (error) {
-                console.error("Erro ao processar o envio dos e-mails em background:", error);
-            }
-        }
+        // 2. E-mail de Agradecimento da Compra (Cópia para o seu controle)
+        await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                access_key: "e65fecc7-fd2b-409d-a420-cbb33812b956",
+                subject: "Pedido Confirmado com Sucesso! - DropDigital",
+                from_name: "DropDigital Suporte",
+                email: "gustavodossantosbonani@gmail.com",
+                message: "Olá! Agradecemos imensamente pela sua compra. Seu pedido já está sendo processado por nossa equipe."
+            })
+        });
 
-        function simularVerificacaoPagamento() {
+    } catch (error) {
+        console.error("Erro ao enviar notificações por e-mail:", error);
+    }
+}
+            function simularVerificacaoPagamento() {
             fecharTodosModais();
             document.getElementById('modalProcessando').classList.add('active');
             
