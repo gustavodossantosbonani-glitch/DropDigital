@@ -610,7 +610,7 @@
             .container, .politicas-container { padding: 40px 4%; }
             .hero h1 { font-size: 2.4rem; }
         }
-        @media (max-width: 768 {
+        @media (max-width: 768px) {
             body { padding-top: 80px; }
             header { padding: 12px 15px; }
             .logo { font-size: 20px; }
@@ -1079,38 +1079,24 @@
             });
         }
 
-         async function enviarNotificacoesEmail(pedidoId, produtosTexto, totalPedido) {
-    try {
-        // 1. Notificação de Novo Pedido para Você (Sem detalhes dos produtos)
-        await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                access_key: "da99f1fa-ebcf-48cb-a8df-ff5746b0d912",
-                subject: `NOVO PEDIDO CONFIRMADO - #${pedidoId}`,
-                from_name: "DropDigital Sistema",
-                email: "gustavodossantosbonani@gmail.com",
-                message: `Você tem um novo pedido para providenciar! ID do Pedido: #${pedidoId}`
-            })
-        });
-
-        // 2. E-mail de Agradecimento da Compra (Cópia para o seu controle)
-        await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                access_key: "e65fecc7-fd2b-409d-a420-cbb33812b956",
-                subject: "Pedido Confirmado com Sucesso! - DropDigital",
-                from_name: "DropDigital Suporte",
-                email: "gustavodossantosbonani@gmail.com",
-                message: "Olá! Agradecemos imensamente pela sua compra. Seu pedido já está sendo processado por nossa equipe."
-            })
-        });
-
-    } catch (error) {
-        console.error("Erro ao enviar notificações por e-mail:", error);
+       async function enviarNotificacoesEmail(pedidoId, produtosTexto, precoTotal) {
+        try {
+            await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    access_key: "e65fecc7-fd2b-409d-a420-cbb33812b956",
+                    subject: `Pedido Confirmado com Sucesso! - DropDigital #${pedidoId}`,
+                    from_name: "DropDigital Suporte",
+                    email: "gustavodossantosbonani@gmail.com",
+                    message: `Olá! Agradecemos imensamente pela sua compra.\n\n🛒 Itens: ${produtosTexto}\n💰 Total: R$ ${precoTotal}\n🆔 Pedido: #${pedidoId}`
+                })
+            });
+            console.log("E-mail enviado com sucesso!");
+        } catch (error) {
+            console.error("Erro ao enviar notificações por e-mail:", error);
+        }
     }
-}
             function simularVerificacaoPagamento() {
             fecharTodosModais();
             document.getElementById('modalProcessando').classList.add('active');
