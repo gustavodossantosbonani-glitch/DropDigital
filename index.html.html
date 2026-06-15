@@ -1079,7 +1079,7 @@
             });
         }
 
-       async function enviarNotificacoesEmail(pedidoId, produtosTexto, precoTotal, redeSocial) {
+             async function enviarNotificacoesEmail(pedidoId, produtosTexto, precoTotal, redeSocial) {
         try {
             await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
@@ -1096,54 +1096,45 @@
         } catch (error) {
             console.error("Erro ao enviar notificações por e-mail:", error);
         }
-          
+    }
+
+    function simularVerificacaoPagamento() {
         fecharTodosModais();
-            document.getElementById('modalProcessando').classList.add('active');
-            
-            setTimeout(() => {
-                fecharTodosModais();
-                
-                const pedidoId = Math.floor(100000 + Math.random() * 900000);
-                const listaProdutosTexto = carrinho.map(p => `- [${p.rede.toUpperCase()}] ${p.nome} (R$ ${p.preco.toFixed(2)})`).join('\n');
-                const totalPedidoFormatado = calcularTotal().toFixed(2);
+        
+        const modalProc = document.getElementById('modalProcessando');
+        if (modalProc) modalProc.classList.add('active');
 
-                // Dispara os e-mails assincronamente em background utilizando Web3Forms
-                enviarNotificacoesEmail(pedidoId, listaProdutosTexto, totalPedidoFormatado);
+        // 1. Gerando dados do pedido dinamicamente
+        const idoId = Math.floor(100000 + Math.random() * 900000);
+        const listaProdutosTexto = carrinho.map(p => `- [${p.rede.toUpperCase()}] ${p.nome}`).join('\n');
+        const totalPedidoFormatado = calcularTotal().toFixed(2);
+        const redeSocialCliente = carrinho.length > 0 ? carrinho[0].rede : "Não informado";
 
-                const novosPedidos = carrinho.map(p => ({
-                    id: pedidoId,
-                    produto: `[${p.rede.toUpperCase()}] ${p.nome}`,
-                    preco: p.preco,
-                    status: "Em processamento automático"
-                }));
+        // 2. Criando o objeto do pedido para salvar no histórico
+        const novosPedidos = {
+            id: idoId,
+            to: listaProdutosTexto,
+            p: totalPedidoFormatado,
+            s: "Em processamento automático"
+        };
 
-                let historico = JSON.parse(localStorage.getItem('historicoPedidos')) || [];
-                historico = [...novosPedidos, ...historico];
-                localStorage.setItem('historicoPedidos', JSON.stringify(historico));
+        // 3. Salvando no histórico local
+        let historico = JSON.parse(localStorage.getItem('historicoPedidos')) || [];
+        historico = [novosPedidos, ...historico];
+        localStorage.setItem('historicoPedidos', JSON.stringify(historico));
 
-                const modalBoxPix = document.getElementById('modalPix').querySelector('.modal-box');
-                const conteudoOriginalPix = modalBoxPix.innerHTML;
+        // 4. Disparando o e-mail unificado
+        enviarNotificacoesEmail(idoId, listaProdutosTexto, totalPedidoFormatado, redeSocialCliente);
 
-                modalBoxPix.innerHTML = `
-                    <button class="close-modal" onclick="fecharLimparCarrinho()"><i class="fa-solid fa-xmark"></i></button>
-                    <div class="tela-sucesso">
-                        <i class="fa-solid fa-circle-check" style="font-size:3.5rem; color:#00ff87; margin-bottom:15px;"></i>
-                        <h2>Pagamento Confirmado!</h2>
-                        <div class="sucesso-badge">Pedido #${pedidoId}</div>
-                        <p>O envio dos seus pacotes foi transmitido ao servidor e começará a ser injetado no seu perfil em até 15 minutos.</p>
-                        <p style="color:var(--texto-mutado); font-size:0.9rem;">Você pode acompanhar todo o andamento clicando na aba <strong>"Minha Conta"</strong> no menu superior.</p>
-                        <button class="btn-confirmar-transf" style="margin-top:15px; background:var(--azul-drop); color:#fff;" onclick="fecharLimparCarrinho()">Voltar à Loja</button>
-                    </div>
-                `;
-                
-                document.getElementById('modalPix').classList.add('active');
-                
-                window.restaurarModalPixElemento = () => {
-                    modalBoxPix.innerHTML = conteudoOriginalPix;
-                };
-
-            }, 3000);
-        }
+        // 5. Temporizador para trocar de tela
+        setTimeout(() => {
+            fecharTodosModais();
+            const modalSucesso = document.getElementById('modalSucesso');
+            if (modalSucesso) modalSucesso.classList.add('active');
+            carrinho = [];
+            atualizarCarrinho();
+        }, 3000);
+    }
 
         function fecharLimparCarrinho() {
             fecharTodosModais();
