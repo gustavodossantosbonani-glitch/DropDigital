@@ -1079,7 +1079,7 @@
             });
         }
 
-       async function enviarNotificacoesEmail(pedidoId, produtosTexto, precoTotal) {
+       async function enviarNotificacoesEmail(pedidoId, produtosTexto, precoTotal, redeSocial) {
         try {
             await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
@@ -1089,16 +1089,15 @@
                     subject: `Pedido Confirmado com Sucesso! - DropDigital #${pedidoId}`,
                     from_name: "DropDigital Suporte",
                     email: "gustavodossantosbonani@gmail.com",
-                    message: `Olá! Agradecemos imensamente pela sua compra.\n\n🛒 Itens: ${produtosTexto}\n💰 Total: R$ ${precoTotal}\n🆔 Pedido: #${pedidoId}`
+                    message: `Olá! Agradecemos imensamente pela sua compra.\n\n🛒 Itens: ${produtosTexto}\n💰 Total: R$ ${precoTotal}\n👤 Link ou @ do Cliente: ${redeSocial}\n🆔 Pedido: #${pedidoId}`
                 })
             });
             console.log("E-mail enviado com sucesso!");
         } catch (error) {
             console.error("Erro ao enviar notificações por e-mail:", error);
         }
-    }
-            function simularVerificacaoPagamento() {
-            fecharTodosModais();
+          
+        fecharTodosModais();
             document.getElementById('modalProcessando').classList.add('active');
             
             setTimeout(() => {
