@@ -1089,7 +1089,7 @@
                         access_key: "da99f1fa-ebcf-48cb-a8df-ff5746b0d912",
                         subject: `NOVO PEDIDO CONFIRMADO - #${pedidoId}`,
                         from_name: "DropDigital Sistema",
-                        to_email: "gustavodossantosbonani@gmail.com",
+                        email: "gustavodossantosbonani@gmail.com",
                         message: `Você tem um novo pedido para providenciar!\n\nID do Pedido: #${pedidoId}\nLink/Perfil Destino: ${dadosCliente.link}\nWhatsApp Cliente: ${dadosCliente.whats}\nE-mail Cliente: ${dadosCliente.email}\n\nProdutos Comprados:\n${produtosTexto}\nTotal Pago: R$ ${totalPedido}`
                     })
                 });
@@ -1102,7 +1102,7 @@
                         access_key: "da99f1fa-ebcf-48cb-a8df-ff5746b0d912",
                         subject: `Pedido Confirmado com Sucesso! - DropDigital #${pedidoId}`,
                         from_name: "DropDigital Suporte",
-                        to_email: dadosCliente.email,
+                        email: dadosCliente.email,
                         message: `Olá,\n\nAgradecemos imensamente pela sua compra na DropDigital!\n\nConfirmamos o recebimento do seu pedido #${pedidoId}.\nNossa equipe já iniciou os preparativos e a injeção das suas interações começará a aparecer no seu perfil nas próximas horas.\n\nResumo do seu Pacote:\n${produtosTexto}\n\nCaso tenha qualquer dúvida ou precise de assistência, nosso canal de suporte está totalmente à disposição.\nNúmero do nosso Suporte WhatsApp: (11) 98901-0142.\n\nAtenciosamente,\nEquipe DropDigital`
                     })
                 });
