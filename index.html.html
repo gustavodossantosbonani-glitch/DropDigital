@@ -1078,8 +1078,7 @@
                 }, 3000);
             });
         }
-
-             async function enviarNotificacoesEmail(pedidoId, produtosTexto, precoTotal, redeSocial) {
+            async function enviarNotificacoesEmail(pedidoId, produtosTexto, precoTotal, redeSocial) {
         try {
             await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
@@ -1089,7 +1088,7 @@
                     subject: `Pedido Confirmado com Sucesso! - DropDigital #${pedidoId}`,
                     from_name: "DropDigital Suporte",
                     email: "gustavodossantosbonani@gmail.com",
-                    message: `Olá! Agradecemos imensamente pela sua compra.\n\n🛒 Itens: ${produtosTexto}\n💰 Total: R$ ${precoTotal}\n👤 Link ou @ do Cliente: ${redeSocial}\n🆔 Pedido: #${pedidoId}`
+                    message: `Olá! Agradecemos imensamente pela sua compra.\n\n🛒 Itens:\n${produtosTexto}\n💰 Total: R$ ${precoTotal}\n👤 Link ou @ do Cliente: ${redeSocial}\n🆔 Pedido: #${pedidoId}`
                 })
             });
             console.log("E-mail enviado com sucesso!");
@@ -1108,92 +1107,115 @@
         const idoId = Math.floor(100000 + Math.random() * 900000);
         const listaProdutosTexto = carrinho.map(p => `- [${p.rede.toUpperCase()}] ${p.nome}`).join('\n');
         const totalPedidoFormatado = calcularTotal().toFixed(2);
-        const redeSocialCliente = carrinho.length > 0 ? carrinho[0].rede : "Não informado";
+        
+        // 2. BUSCANDO O LINK / @ REAL DIGITADO PELO CLIENTE NO CHECKOUT
+        const redeSocialCliente = dadosCliente && dadosCliente.link ? dadosCliente.link : "Não informado";
 
-        // 2. Criando o objeto do pedido para salvar no histórico
+        // 3. Criando o objeto do pedido com as propriedades certas para o histórico
         const novosPedidos = {
             id: idoId,
-            to: listaProdutosTexto,
-            p: totalPedidoFormatado,
-            s: "Em processamento automático"
+            produto: listaProdutosTexto,
+            preco: calcularTotal(),
+            status: "Em processamento automático"
         };
 
-        // 3. Salvando no histórico local
+        // 4. Salvando no histórico local (localStorage)
         let historico = JSON.parse(localStorage.getItem('historicoPedidos')) || [];
         historico = [novosPedidos, ...historico];
         localStorage.setItem('historicoPedidos', JSON.stringify(historico));
 
-        // 4. Disparando o e-mail unificado
+        // 5. Disparando o e-mail com o @ real do cliente
         enviarNotificacoesEmail(idoId, listaProdutosTexto, totalPedidoFormatado, redeSocialCliente);
 
-        // 5. Temporizador para trocar de tela
+        // 6. Temporizador para trocar para o modal de sucesso (3 segundos)
         setTimeout(() => {
             fecharTodosModais();
-            const modalSucesso = document.getElementById('modalSucesso');
-            if (modalSucesso) modalSucesso.classList.add('active');
-            carrinho = [];
-            atualizarCarrinho();
+            
+            let modalSucesso = document.getElementById('modalSucesso');
+            if (!modalSucesso) {
+                modalSucesso = document.createElement('div');
+                modalSucesso.id = 'modalSucesso';
+                modalSucesso.className = 'modal-overlay';
+                modalSucesso.innerHTML = `
+                    <div class="modal-box tela-sucesso">
+                        <button class="close-modal" onclick="fecharLimparCarrinho()"><i class="fa-solid fa-xmark"></i></button>
+                        <h2><i class="fa-solid fa-circle-check"></i> Pagamento Aprovado!</h2>
+                        <div class="sucesso-badge">Pedido #${idoId}</div>
+                        <p>O seu pagamento foi verificado com sucesso pelo nosso sistema.</p>
+                        <p style="color: var(--texto-mutado); font-size: 0.9rem;">As interações para o perfil <strong>${redeSocialCliente}</strong> já foram enfileiradas e começarão a ser entregues em instantes!</p>
+                        <button class="btn-confirmar-transf" onclick="fecharLimparCarrinho()">Entendido</button>
+                    </div>
+                `;
+                document.body.appendChild(modalSucesso);
+            } else {
+                modalSucesso.querySelector('.modal-box').innerHTML = `
+                    <button class="close-modal" onclick="fecharLimparCarrinho()"><i class="fa-solid fa-xmark"></i></button>
+                    <h2><i class="fa-solid fa-circle-check"></i> Pagamento Aprovado!</h2>
+                    <div class="sucesso-badge">Pedido #${idoId}</div>
+                    <p>O seu pagamento foi verificado com sucesso pelo nosso sistema.</p>
+                    <p style="color: var(--texto-mutado); font-size: 0.9rem;">As interações para o perfil <strong>${redeSocialCliente}</strong> já foram enfileiradas e começarão a ser entregues em instantes!</p>
+                    <button class="btn-confirmar-transf" onclick="fecharLimparCarrinho()">Entendido</button>
+                `;
+            }
+
+            modalSucesso.classList.add('active');
         }, 3000);
     }
 
-        function fecharLimparCarrinho() {
-            fecharTodosModais();
-            carrinho = [];
-            atualizarCarrinhoUI();
-            clearInterval(timerInterval);
-            if (window.restaurarModalPixElemento) {
-                window.restaurarModalPixElemento();
-                window.restaurarModalPixElemento = null;
-            }
-        }
+    function fecharLimparCarrinho() {
+        fecharTodosModais();
+        carrinho = [];
+        atualizarCarrinhoUI();
+        clearInterval(timerInterval);
+    }
 
-        function cancelarPixEFechar() {
-            fecharTodosModais();
-            clearInterval(timerInterval);
-        }
+    function cancelarPixEFechar() {
+        fecharTodosModais();
+        clearInterval(timerInterval);
+    }
 
-        function abrirModalConta(e) {
-            if(e) e.preventDefault();
-            fecharTodosModais();
-            
-            const listaContainer = document.getElementById('listaPedidosConta');
-            const semPedidosMsg = document.getElementById('contaSemPedidos');
-            const historico = JSON.parse(localStorage.getItem('historicoPedidos')) || [];
-
-            if (historico.length === 0) {
-                semPedidosMsg.style.display = 'block';
-                listaContainer.innerHTML = '';
-            } else {
-                semPedidosMsg.style.display = 'none';
-                listaContainer.innerHTML = historico.map(p => `
-                    <div class="pedido-card">
-                        <strong>Pedido #${p.id}</strong><br>
-                        <span style="font-size:0.9rem; color:#fff;">${p.produto}</span><br>
-                        <small style="color:var(--azul-neon);">Valor: R$ ${p.preco.toFixed(2)}</small><br>
-                        <div class="pedido-status status-andamento-badge">${p.status}</div>
-                    </div>
-                `).join('');
-            }
-            document.getElementById('modalConta').classList.add('active');
-        }
-
-        function fecharModal(id) { document.getElementById(id).classList.remove('active'); }
-        function fecharTodosModais() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
-        function fecharModalSeForFora(e, id) { if(e.target.id === id) fecharModal(id); }
-        function aceitarCookies() { localStorage.setItem('cookiesAceitos', 'true'); document.getElementById('cookieBanner').classList.remove('active'); }
+    function abrirModalConta(e) {
+        if(e) e.preventDefault();
+        fecharTodosModais();
         
-        function mudarRede(rede) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.rede-secao').forEach(sec => sec.classList.remove('active'));
-            document.querySelector(`[data-rede="${rede}"]`).classList.add('active');
-            document.getElementById(`rede-${rede}`).classList.add('active');
-        }
+        const listaContainer = document.getElementById('listaPedidosConta');
+        const semPedidosMsg = document.getElementById('contaSemPedidos');
+        const historico = JSON.parse(localStorage.getItem('historicoPedidos')) || [];
 
-        window.addEventListener('load', () => {
-            if (!localStorage.getItem('cookiesAceitos')) {
-                setTimeout(() => { document.getElementById('cookieBanner').classList.add('active'); }, 1000);
-            }
-        });
-    </script>
+        if (historico.length === 0) {
+            semPedidosMsg.style.display = 'block';
+            listaContainer.innerHTML = '';
+        } else {
+            semPedidosMsg.style.display = 'none';
+            listaContainer.innerHTML = historico.map(p => `
+                <div class="pedido-card">
+                    <strong>Pedido #${p.id}</strong><br>
+                    <span style="font-size:0.9rem; color:#fff; white-space: pre-line;">${p.produto}</span><br>
+                    <small style="color:var(--azul-neon);">Valor: R$ ${parseFloat(p.preco).toFixed(2)}</small><br>
+                    <div class="pedido-status status-andamento-badge">${p.status}</div>
+                </div>
+            `).join('');
+        }
+        document.getElementById('modalConta').classList.add('active');
+    }
+
+    function fecharModal(id) { document.getElementById(id).classList.remove('active'); }
+    function fecharTodosModais() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
+    function fecharModalSeForFora(e, id) { if(e.target.id === id) fecharModal(id); }
+    function aceitarCookies() { localStorage.setItem('cookiesAceitos', 'true'); document.getElementById('cookieBanner').classList.remove('active'); }
+    
+    function mudarRede(rede) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.rede-secao').forEach(sec => sec.classList.remove('active'));
+        document.querySelector(`[data-rede="${rede}"]`).classList.add('active');
+        document.getElementById(`rede-${rede}`).classList.add('active');
+    }
+
+    window.addEventListener('load', () => {
+        if (!localStorage.getItem('cookiesAceitos')) {
+            setTimeout(() => { document.getElementById('cookieBanner').classList.add('active'); }, 1000);
+        }
+    });
+</script>
 </body>
 </html>
